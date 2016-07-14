@@ -127,7 +127,8 @@ class Course(TimeStampedModel):
     """ Course model. """
     key = models.CharField(max_length=255, db_index=True, unique=True)
     title = models.CharField(max_length=255, default=None, null=True, blank=True)
-    short_description = models.CharField(max_length=255, default=None, null=True, blank=True)
+    # Rjio Changed short_description to text type
+    short_description = models.TextField(default=None, null=True, blank=True)
     full_description = models.TextField(default=None, null=True, blank=True)
     organizations = models.ManyToManyField('Organization', through='CourseOrganization', blank=True)
     subjects = models.ManyToManyField(Subject, blank=True)
@@ -212,8 +213,8 @@ class CourseRun(TimeStampedModel):
     enrollment_start = models.DateTimeField(null=True, blank=True)
     enrollment_end = models.DateTimeField(null=True, blank=True)
     announcement = models.DateTimeField(null=True, blank=True)
-    short_description_override = models.CharField(
-        max_length=255, default=None, null=True, blank=True,
+    short_description_override = models.TextField(
+        default=None, null=True, blank=True,
         help_text=_(
             "Short description specific for this run of a course. Leave this value blank to default to "
             "the parent course's short_description attribute."))
@@ -237,6 +238,10 @@ class CourseRun(TimeStampedModel):
     image = models.ForeignKey(Image, default=None, null=True, blank=True)
     video = models.ForeignKey(Video, default=None, null=True, blank=True)
     marketing_url = models.URLField(max_length=255, null=True, blank=True)
+    # Rjio custom add
+    display_organization = models.CharField(max_length=255, default=None, null=True, blank=True)
+    enable_jvc = models.BooleanField(default=False)
+    room_key = models.TextField(null=True)
 
     history = HistoricalRecords()
 

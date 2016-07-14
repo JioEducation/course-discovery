@@ -83,6 +83,8 @@ class CourseRunIndex(BaseCourseIndex, indexes.Indexable):
     seat_types = indexes.MultiValueField(model_attr='seat_types', null=True, faceted=True)
     type = indexes.CharField(model_attr='type', null=True, faceted=True)
     image_url = indexes.CharField(model_attr='image_url', null=True)
+    # Rjio add display_organization field
+    display_organization = indexes.CharField(model_attr='display_organization')
 
     def _prepare_language(self, language):
         return language.name

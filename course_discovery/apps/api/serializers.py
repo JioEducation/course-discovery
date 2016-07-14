@@ -198,6 +198,7 @@ class CourseRunSerializer(TimestampModelSerializer):
             'enrollment_start', 'enrollment_end', 'announcement', 'image', 'video', 'seats',
             'content_language', 'transcript_languages', 'instructors', 'staff',
             'pacing_type', 'min_effort', 'max_effort', 'modified', 'marketing_url',
+            'display_organization', 'enable_jvc', 'room_key',
         )
 
     def get_marketing_url(self, obj):

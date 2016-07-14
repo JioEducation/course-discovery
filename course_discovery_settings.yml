@@ -1,0 +1,26 @@
+SOCIAL_AUTH_EDX_OIDC_KEY: '602c58f22b8f8f29ca67'
+SOCIAL_AUTH_EDX_OIDC_SECRET: 'e7f6e44cb3a1f851326556b6c9592230f36cbb60'
+SOCIAL_AUTH_EDX_OIDC_URL_ROOT: 'http://172.21.31.83:8000/oauth2'
+SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY : 'e7f6e44cb3a1f851326556b6c9592230f36cbb60'
+
+JWT_AUTH:
+  JWT_ALGORITHM: 'HS256'
+  JWT_AUDIENCE: 'http://172.21.31.83:8010/'
+  JWT_ISSUER: 'http://172.21.31.83:8000/oauth2'
+  JWT_DECODE_HANDLER: 'edx_rest_framework_extensions.utils.jwt_decode_handler'
+  JWT_SECRET_KEY: 'a79338d9711695df48338435474ee1c8711d0f16'
+  JWT_VERIFY_AUDIENCE: False
+
+COURSES_API_URL: 'http://172.21.31.83:8000/api/courses/v1/'
+
+EDX_DRF_EXTENSIONS:
+  OAUTH2_USER_INFO_URL: 'http://172.21.31.83:8000/oauth2/user_info'
+
+DATABASES:
+  default:
+    ENGINE: 'django.db.backends.sqlite3'
+    NAME: '/home/it8/Documents/course_discovery_prod/course-discovery/course_discovery/default.db'
+    USER: ''
+    PASSWORD: ''
+    HOST: ''
+    PORT: ''

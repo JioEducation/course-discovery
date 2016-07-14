@@ -186,7 +186,8 @@ class CoursesApiDataLoader(AbstractDataLoader):
                 page = None
 
             for body in results:
-                course_run_id = body['id']
+                # Rjio fix: for Dogwood backporting change all body['id'] to body['course_id']
+                course_run_id = body['course_id']
 
                 try:
                     body = self.clean_strings(body)
@@ -202,7 +203,7 @@ class CoursesApiDataLoader(AbstractDataLoader):
     def update_course(self, body):
         # NOTE (CCB): Use the data from the CourseKey since the Course API exposes display names for org and number,
         # which may not be unique for an organization.
-        course_run_key_str = body['id']
+        course_run_key_str = body['course_id']
         course_run_key = CourseKey.from_string(course_run_key_str)
         organization, __ = Organization.objects.get_or_create(key=course_run_key.org)
         course_key = self.convert_course_run_key(course_run_key_str)
@@ -229,8 +230,12 @@ class CoursesApiDataLoader(AbstractDataLoader):
             'video': self.get_courserun_video(body),
             'pacing_type': self.get_pacing_type(body),
             'image': self.get_courserun_image(body),
+            # Rjio Added fields display_organization, enable_jvc, room_key
+            'display_organization': body['org'],
+            'enable_jvc': body['enable_jvc'],
+            'room_key': body['room_key'],
         }
-        CourseRun.objects.update_or_create(key=body['id'], defaults=defaults)
+        CourseRun.objects.update_or_create(key=body['course_id'], defaults=defaults)
 
     def get_pacing_type(self, body):
         pacing = body.get('pacing')
@@ -434,7 +439,7 @@ class EcommerceApiDataLoader(AbstractDataLoader):
         self.delete_orphans()
 
     def update_seats(self, body):
-        course_run_key = body['id']
+        course_run_key = body['course_id']
         try:
             course_run = CourseRun.objects.get(key=course_run_key)
         except CourseRun.DoesNotExist:

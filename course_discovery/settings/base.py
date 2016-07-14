@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'course_discovery.wsgi.application'
 # Set this value in the environment-specific files (e.g. local.py, production.py, test.py)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': '',
         'USER': '',
         'PASSWORD': '',
