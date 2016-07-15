@@ -24,7 +24,7 @@ from rest_framework.response import Response
 
 from course_discovery.apps.api import serializers
 from course_discovery.apps.api.filters import PermissionsFilter, HaystackFacetFilterWithQueries
-from course_discovery.apps.api.pagination import PageNumberPagination
+from course_discovery.apps.api.pagination import PageNumberPagination, NamespacedPageNumberPagination
 from course_discovery.apps.api.renderers import AffiliateWindowXMLRenderer, CourseRunCSVRenderer
 from course_discovery.apps.catalogs.models import Catalog
 from course_discovery.apps.core.utils import SearchQuerySetWrapper
@@ -177,6 +177,7 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Course.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = serializers.CourseSerializer
+    pagination_class = NamespacedPageNumberPagination
 
     def get_queryset(self):
         q = self.request.query_params.get('q', None)
@@ -213,6 +214,7 @@ class CourseRunViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CourseRun.objects.all().order_by(Lower('key'))
     permission_classes = (IsAuthenticated,)
     serializer_class = serializers.CourseRunSerializer
+    pagination_class = NamespacedPageNumberPagination
 
     def get_queryset(self):
         q = self.request.query_params.get('q', None)
@@ -285,7 +287,7 @@ class ProgramViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ManagementViewSet(viewsets.ViewSet):
-    permission_classes = (IsSuperuser,)
+    permission_classes = (IsAuthenticated,)
 
     @list_route(methods=['post'])
     def refresh_course_metadata(self, request):
@@ -300,7 +302,8 @@ class ManagementViewSet(viewsets.ViewSet):
               multiple: false
         """
         access_token = request.data.get('access_token')
-        kwargs = {'access_token': access_token} if access_token else {}
+        token_type = request.data.get('token_type')
+        kwargs = {'access_token': access_token, 'token_type': token_type} if access_token else {}
         name = 'refresh_course_metadata'
 
         output = self.run_command(request, name, **kwargs)

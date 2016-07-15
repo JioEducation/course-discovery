@@ -53,11 +53,12 @@ class Command(BaseCommand):
                 logger.exception('No access token provided or acquired through client_credential flow.')
                 raise
 
+        # Rjio comment the other data loaders which are not used.
         loaders = (
-            (OrganizationsApiDataLoader, settings.ORGANIZATIONS_API_URL,),
+            # (OrganizationsApiDataLoader, settings.ORGANIZATIONS_API_URL,),
             (CoursesApiDataLoader, settings.COURSES_API_URL,),
-            (EcommerceApiDataLoader, settings.ECOMMERCE_API_URL,),
-            (DrupalApiDataLoader, settings.MARKETING_API_URL,),
+            # (EcommerceApiDataLoader, settings.ECOMMERCE_API_URL,),
+            # (DrupalApiDataLoader, settings.MARKETING_API_URL,),
         )
 
         for loader_class, api_url in loaders:
